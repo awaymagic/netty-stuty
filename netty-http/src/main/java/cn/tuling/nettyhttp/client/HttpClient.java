@@ -27,6 +27,7 @@ public class HttpClient {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
+                    // HttpClientCodec() 请求和应答做了合并
                     ch.pipeline().addLast(new HttpClientCodec());
                     /*聚合http为一个完整的报文*/
                     ch.pipeline().addLast("aggregator",

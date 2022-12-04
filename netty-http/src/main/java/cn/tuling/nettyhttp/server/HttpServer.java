@@ -29,7 +29,6 @@ public class HttpServer {
             SelfSignedCertificate ssc = new SelfSignedCertificate();
             sslCtx = SslContextBuilder.forServer(ssc.certificate(),
                     ssc.privateKey()).build();
-
         }else{
             sslCtx = null;
         }
@@ -39,8 +38,8 @@ public class HttpServer {
             b.childHandler(new ServerHandlerInit(sslCtx)); //设置过滤器
             // 服务器绑定端口监听
             ChannelFuture f = b.bind(port).sync();
-            System.out.println("服务端启动成功,端口是:"+port);
-            System.out.println("服务器启动模式： "+( SSL ? "SSL安全模式" :"普通模式"));
+            System.out.println("服务端启动成功,端口是:" + port);
+            System.out.println("服务器启动模式： " + (SSL ? "SSL安全模式" : "普通模式"));
             // 监听服务器关闭监听
             f.channel().closeFuture().sync();
         } finally {
