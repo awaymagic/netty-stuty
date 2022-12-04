@@ -68,6 +68,7 @@ public final class PersonProto {
       return defaultInstance;
     }
 
+    @Override
     public Person getDefaultInstanceForType() {
       return defaultInstance;
     }
@@ -135,6 +136,7 @@ public final class PersonProto {
       return PersonProto.internal_static_netty_Person_descriptor;
     }
 
+    @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
       return PersonProto.internal_static_netty_Person_fieldAccessorTable
@@ -163,12 +165,14 @@ public final class PersonProto {
     /**
      * <code>required int32 id = 1;</code>
      */
+    @Override
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 id = 1;</code>
      */
+    @Override
     public int getId() {
       return id_;
     }
@@ -178,12 +182,14 @@ public final class PersonProto {
     /**
      * <code>required string name = 2;</code>
      */
+    @Override
     public boolean hasName() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required string name = 2;</code>
      */
+    @Override
     public String getName() {
       Object ref = name_;
       if (ref instanceof String) {
@@ -201,6 +207,7 @@ public final class PersonProto {
     /**
      * <code>required string name = 2;</code>
      */
+    @Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       Object ref = name_;
@@ -220,12 +227,14 @@ public final class PersonProto {
     /**
      * <code>optional string email = 3;</code>
      */
+    @Override
     public boolean hasEmail() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional string email = 3;</code>
      */
+    @Override
     public String getEmail() {
       Object ref = email_;
       if (ref instanceof String) {
@@ -243,6 +252,7 @@ public final class PersonProto {
     /**
      * <code>optional string email = 3;</code>
      */
+    @Override
     public com.google.protobuf.ByteString
         getEmailBytes() {
       Object ref = email_;
@@ -280,6 +290,7 @@ public final class PersonProto {
       return true;
     }
 
+    @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
@@ -298,7 +309,9 @@ public final class PersonProto {
     private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
       int size = memoizedSerializedSize;
-      if (size != -1) return size;
+      if (size != -1) {
+        return size;
+      }
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -379,10 +392,12 @@ public final class PersonProto {
     }
 
     public static Builder newBuilder() { return Builder.create(); }
+    @Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder(Person prototype) {
       return newBuilder().mergeFrom(prototype);
     }
+    @Override
     public Builder toBuilder() { return newBuilder(this); }
 
     @Override
@@ -403,6 +418,7 @@ public final class PersonProto {
         return PersonProto.internal_static_netty_Person_descriptor;
       }
 
+      @Override
       protected FieldAccessorTable
           internalGetFieldAccessorTable() {
         return PersonProto.internal_static_netty_Person_fieldAccessorTable
@@ -428,6 +444,7 @@ public final class PersonProto {
         return new Builder();
       }
 
+      @Override
       public Builder clear() {
         super.clear();
         id_ = 0;
@@ -439,19 +456,23 @@ public final class PersonProto {
         return this;
       }
 
+      @Override
       public Builder clone() {
         return create().mergeFrom(buildPartial());
       }
 
+      @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return PersonProto.internal_static_netty_Person_descriptor;
       }
 
+      @Override
       public Person getDefaultInstanceForType() {
         return Person.getDefaultInstance();
       }
 
+      @Override
       public Person build() {
         Person result = buildPartial();
         if (!result.isInitialized()) {
@@ -460,6 +481,7 @@ public final class PersonProto {
         return result;
       }
 
+      @Override
       public Person buildPartial() {
         Person result = new Person(this);
         int from_bitField0_ = bitField0_;
@@ -481,6 +503,7 @@ public final class PersonProto {
         return result;
       }
 
+      @Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Person) {
           return mergeFrom((Person)other);
@@ -509,6 +532,7 @@ public final class PersonProto {
         return this;
       }
 
+      @Override
       public final boolean isInitialized() {
         if (!hasId()) {
           
@@ -521,6 +545,7 @@ public final class PersonProto {
         return true;
       }
 
+      @Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -544,12 +569,14 @@ public final class PersonProto {
       /**
        * <code>required int32 id = 1;</code>
        */
+      @Override
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 id = 1;</code>
        */
+      @Override
       public int getId() {
         return id_;
       }
@@ -576,12 +603,14 @@ public final class PersonProto {
       /**
        * <code>required string name = 2;</code>
        */
+      @Override
       public boolean hasName() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required string name = 2;</code>
        */
+      @Override
       public String getName() {
         Object ref = name_;
         if (!(ref instanceof String)) {
@@ -599,6 +628,7 @@ public final class PersonProto {
       /**
        * <code>required string name = 2;</code>
        */
+      @Override
       public com.google.protobuf.ByteString
           getNameBytes() {
         Object ref = name_;
@@ -652,12 +682,14 @@ public final class PersonProto {
       /**
        * <code>optional string email = 3;</code>
        */
+      @Override
       public boolean hasEmail() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional string email = 3;</code>
        */
+      @Override
       public String getEmail() {
         Object ref = email_;
         if (!(ref instanceof String)) {
@@ -675,6 +707,7 @@ public final class PersonProto {
       /**
        * <code>optional string email = 3;</code>
        */
+      @Override
       public com.google.protobuf.ByteString
           getEmailBytes() {
         Object ref = email_;

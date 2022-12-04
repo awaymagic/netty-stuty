@@ -28,11 +28,11 @@ public class ProtoBufClient {
                         @Override
                         public void initChannel(SocketChannel ch)
                                 throws Exception {
-                            /*加一个消息长度，由netty自动计算*/
+                            /* 加一个消息长度，由netty自动计算编码后的长度 */
                             ch.pipeline().addLast(
                                     new ProtobufVarint32LengthFieldPrepender()
                             );
-                            /*负责编码,序列化*/
+                            /* 负责编码,序列化 */
                             ch.pipeline().addLast(new ProtobufEncoder());
                             ch.pipeline().addLast(new ProtoBufClientHandler());
                         }

@@ -28,9 +28,10 @@ public class ProtoBufServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) {
-                            /*去除消息长度部分，同时根据这个消息长度读取实际的数据*/
+                            /* 去除消息长度部分，同时根据这个消息长度读取实际的数据 */
                             ch.pipeline().addLast(
                                     new ProtobufVarint32FrameDecoder());
+                            /* 解码 */
                             ch.pipeline().addLast(new ProtobufDecoder(
                                     PersonProto.Person.getDefaultInstance()
                             ));
