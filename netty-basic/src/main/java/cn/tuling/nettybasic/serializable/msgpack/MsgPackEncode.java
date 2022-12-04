@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.msgpack.MessagePack;
 
-/*基于MessagePack的编码器，序列化*/
+/* 基于MessagePack的编码器，序列化 User 为源*/
 public class MsgPackEncode extends MessageToByteEncoder<User> {
     @Override
     protected void encode(ChannelHandlerContext ctx, User msg, ByteBuf out)

@@ -13,7 +13,7 @@ import java.net.InetSocketAddress;
 
 /**
  * 作者：Mark/Maoke
- * 类说明：
+ * 类说明：服务器
  */
 public class ServerMsgPackEcho {
 
@@ -52,7 +52,9 @@ public class ServerMsgPackEcho {
             ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,
                     0,2,0,
                     2));
+            // 解码器(反序列化)
             ch.pipeline().addLast(new MsgPackDecoder());
+            // 业务处理
             ch.pipeline().addLast(new MsgPackServerHandler());
         }
     }

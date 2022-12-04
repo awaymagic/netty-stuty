@@ -14,7 +14,7 @@ import java.net.InetSocketAddress;
 
 /**
  * 作者：Mark/Maoke
- * 类说明：
+ * 类说明：客户端
  */
 public class ClientMsgPackEcho {
 
@@ -46,9 +46,9 @@ public class ClientMsgPackEcho {
 
         @Override
         protected void initChannel(Channel ch) throws Exception {
-            /*告诉netty，计算一下报文的长度，然后作为报文头加在前面*/
+            /* 告诉netty，计算一下报文的长度，然后作为报文头加在前面 2个 byte*/
             ch.pipeline().addLast(new LengthFieldPrepender(2));
-            /*对服务器的应答也要解码，解决粘包半包*/
+            /* 对服务器的应答也要解码，解决粘包半包(字符串) */
             ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
 
             /*对我们要发送的数据做编码-序列化*/

@@ -21,18 +21,19 @@ public class MsgPackClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     private AtomicInteger counter = new AtomicInteger(0);
 
     /*** 客户端读取到网络数据后的处理*/
+    @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
-        System.out.println("client Accept["+msg.toString(CharsetUtil.UTF_8)
-                +"] and the counter is:"+counter.incrementAndGet());
+        System.out.println("client Accept[" + msg.toString(CharsetUtil.UTF_8)
+                + "] and the counter is:" + counter.incrementAndGet());
     }
 
     /*** 客户端被通知channel活跃后，做事*/
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         User[] users = makeUsers();
-        //发送数据
-        for(User user:users){
-            System.out.println("Send user:"+user);
+        // 发送数据
+        for (User user : users) {
+            System.out.println("Send user:" + user);
             ctx.write(user);
         }
         ctx.flush();
