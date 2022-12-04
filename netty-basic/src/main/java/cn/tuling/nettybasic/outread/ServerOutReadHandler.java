@@ -30,4 +30,19 @@ public class ServerOutReadHandler extends ChannelOutboundHandlerAdapter {
 //        LOG.info("想读数据，我不同意，我不把请求往前传递");
 
     }
+
+    /**
+     * 如果派生至 ChannelInboundHandlerAdapter ,用的是 channelRead()
+     * 而自己加了 handler 而未手动处理 handler 接下来的操作，会导致在 write() 这里终止操作
+     * 所以一般派生至 SimpleChannelInboundHandler ,用的是 channelRead0() 在上下都做了释放,
+     * 内部覆盖了 channelRead()，暴露了 channelRead0()
+     *
+     * 总结:写入站 handler 时, channelRead() 读到的数据要么向下执行，要么释放掉。避免内存泄漏
+     * 嫌麻烦就入站直接使用 SimpleChannelInboundHandler ,开发者只专注于业务即可
+     */
+    // @Override
+    // public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+    //     super.write(ctx, msg, promise);
+    // }
+
 }
