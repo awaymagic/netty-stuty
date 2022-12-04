@@ -29,13 +29,14 @@ public class EchoClient {
         /*线程组*/
         EventLoopGroup group  = new NioEventLoopGroup();
         try {
-            /*客户端启动必备，和服务器的不同点*/
+            /* Bootstrap 客户端启动必备，和服务器的不同点1*/
             Bootstrap b = new Bootstrap();
             b.group(group)
-                    .channel(NioSocketChannel.class)/*指定使用NIO的通信模式*/
-                    /*指定服务器的IP地址和端口，和服务器的不同点*/
+                    /*指定使用NIO的通信模式*/
+                    .channel(NioSocketChannel.class)
+                    /*连结:指定服务器的IP地址和端口，和服务器的不同点2*/
                     .remoteAddress(new InetSocketAddress(host,port))
-                    /*和服务器的不同点*/
+                    /* handler():和服务器的不同点3*/
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
@@ -43,7 +44,7 @@ public class EchoClient {
 
                         }
                     });
-            /*异步连接到服务器，sync()会阻塞到完成，和服务器的不同点*/
+            /*异步连接connect()到服务器，sync()会阻塞到完成，和服务器的不同点*/
             ChannelFuture f = b.connect().sync();
             f.channel().closeFuture().sync();/*阻塞当前线程，直到客户端的Channel被关闭*/
         } finally {

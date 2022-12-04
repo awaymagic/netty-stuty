@@ -33,17 +33,18 @@ public class EchoServer  {
     }
 
     public void start() throws InterruptedException {
-        /*线程组*/
+        /*1.线程组*/
         EventLoopGroup group  = new NioEventLoopGroup();
         try {
-            /*服务端启动必备*/
+            /*2. ServerBootstrap 服务端启动必备 */
             ServerBootstrap b = new ServerBootstrap();
+            // ServerBootstrap 绑定 EventLoopGroup
             b.group(group)
-                    // 指定什么协议通讯 NIO
+                    // 指定什么协议通讯,比如 BIO - NioServerSocketChannel 监听连接
                     .channel(NioServerSocketChannel.class)
-                    // 指定那个端口消费
+                    // 指定哪个端口消费
                     .localAddress(new InetSocketAddress(port))
-                    // 要经过那些 Handler
+                    // 要经过那些 Handler, childHandler 指定子Handler
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
@@ -51,10 +52,10 @@ public class EchoServer  {
                         }
                     });
 
-            /*异步绑定到服务器，sync()会阻塞到完成*/
+            /*异步绑定bind()到服务器，sync()会阻塞到完成*/
             ChannelFuture f = b.bind().sync();
-            LOG.info("服务器启动完成。");
-            /*阻塞当前线程，直到服务器的ServerChannel被关闭*/
+            LOG.info("--- 服务器启动完成 ---");
+            /*(关闭动作)阻塞当前线程，直到服务器的ServerChannel被关闭*/
             f.channel().closeFuture().sync();
         } finally {
             group.shutdownGracefully().sync();
