@@ -38,6 +38,7 @@ public class EchoServerMC {
     }
 
     public void start() throws InterruptedException {
+        // 共享的 handler 只需要一份实例，所有的即可公用
         final MessageCountHandler messageCountHandler = new MessageCountHandler();
         /*线程组*/
         EventLoopGroup boss  = new NioEventLoopGroup();
@@ -56,6 +57,7 @@ public class EchoServerMC {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
+                    // 共享的 handler 不需要 new xxxHandler。必须要加 @ChannelHandler.Sharable
                     ch.pipeline().addLast(messageCountHandler);
                     ch.pipeline().addLast(new EchoServerMCHandler());
                 }

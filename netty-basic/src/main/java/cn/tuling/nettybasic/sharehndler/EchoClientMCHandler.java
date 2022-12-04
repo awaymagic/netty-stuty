@@ -27,7 +27,7 @@ public class EchoClientMCHandler extends SimpleChannelInboundHandler<ByteBuf> {
         String request = "Hello"
                 + System.getProperty("line.separator");
         int sendCount = r.nextInt(10) + 1;
-        for(int i=0; i<sendCount; i++ ){
+        for (int i = 0; i < sendCount; i++) {
             msg = Unpooled.buffer(request.length());
             msg.writeBytes(request.getBytes());
             ctx.writeAndFlush(msg);
