@@ -16,6 +16,12 @@ public class ServerOutReadHandler extends ChannelOutboundHandlerAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(ServerOutReadHandler.class);
     private int count;
 
+    /**
+     * read()
+     * 业务方要求读更多的数据的动作，会被 netty 打包成事件在 pipeline 上进行传播
+     * 而这个动作则会触发 ChannelOutboundHandlerAdapter 的 read()
+     * 读的要求(事件包括数据和动作)是出站  (MASK_READ)
+     */
     @Override
     public void read(ChannelHandlerContext ctx) throws Exception {
         LOG.info("请求读更多的数据，但是我要休息一下");

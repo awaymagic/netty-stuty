@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 public class EchoServerORHandler extends ChannelInboundHandlerAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(EchoServerORHandler.class);
 
+    /**
+     * channelRead()
+     */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf in = (ByteBuf)msg;
