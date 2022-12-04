@@ -51,6 +51,7 @@ public class FixedLengthEchoServer {
         protected void initChannel(Channel ch) throws Exception {
             ch.pipeline().addLast(
                     new FixedLengthFrameDecoder(
+                            // 定长
                             FixedLengthEchoClient.REQUEST.length()));
             ch.pipeline().addLast(new FixedLengthServerHandler());
         }

@@ -19,6 +19,7 @@ import java.net.InetSocketAddress;
  */
 public class DelimiterEchoServer {
 
+    /** 自定义分隔符 */
     public static final String DELIMITER_SYMBOL = "@~";
     public static final int PORT = 9997;
 
@@ -51,6 +52,7 @@ public class DelimiterEchoServer {
 
         @Override
         protected void initChannel(Channel ch) throws Exception {
+            // 使用分隔符
             ByteBuf delimiter = Unpooled.copiedBuffer(DELIMITER_SYMBOL.getBytes());
             ch.pipeline().addLast(new DelimiterBasedFrameDecoder(1024,
                     delimiter));

@@ -48,6 +48,7 @@ public class LineBaseEchoServer {
 
         @Override
         protected void initChannel(Channel ch) throws Exception {
+            // 回车换行符
             ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
             ch.pipeline().addLast(new LineBaseServerHandler());
         }

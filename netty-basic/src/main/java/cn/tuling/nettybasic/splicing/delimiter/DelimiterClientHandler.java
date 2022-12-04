@@ -17,6 +17,7 @@ public class DelimiterClientHandler extends SimpleChannelInboundHandler<ByteBuf>
     private AtomicInteger counter = new AtomicInteger(0);
 
     /*** 客户端读取到网络数据后的处理*/
+    @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
         System.out.println("client Accept["+msg.toString(CharsetUtil.UTF_8)
                 +"] and the counter is:"+counter.incrementAndGet());
@@ -27,6 +28,7 @@ public class DelimiterClientHandler extends SimpleChannelInboundHandler<ByteBuf>
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ByteBuf msg = null;
         String request = "Mark,zhuge,zhouyu,fox,loulan"
+                // 客户端发送数据时,自定义分隔符
                 + DelimiterEchoServer.DELIMITER_SYMBOL;
         for(int i=0;i<10;i++){
             msg = Unpooled.buffer(request.length());

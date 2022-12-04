@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @description ：统计服务器接受到和发出的业务报文总数
  *
  * @ChannelHandler.Sharable 告诉 netty 本 handler 可以在多个 channel 共享
+ * ChannelDuplexHandler 既可以处理入站 又可以处理出站
  */
 @ChannelHandler.Sharable
 public class MessageCountHandler extends ChannelDuplexHandler {
