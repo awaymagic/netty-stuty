@@ -48,6 +48,7 @@ public class EchoServer  {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
+                            // 每一个 Channel 都有一个自己的 ChannelPipeline
                             ch.pipeline().addLast(new EchoServerHandler());
                         }
                     });

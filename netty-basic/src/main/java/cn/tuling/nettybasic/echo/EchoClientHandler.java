@@ -22,7 +22,7 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
         System.out.println("client Accept" + msg.toString(CharsetUtil.UTF_8));
-        // 关闭连接
+        // 关闭连接(关闭则为长连接)
         // ctx.close();
     }
 
@@ -33,10 +33,14 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        // ctx 的作用？以下三种写的区别？
+        // 1. ctx.write 当前写的这个 handler 找他下一个 handler
+        // (推荐 ctx.write ,流经步骤越少性能越高)
         ctx.writeAndFlush(Unpooled.copiedBuffer(
                 "Hello,Netty",CharsetUtil.UTF_8));
-       // ctx.pipeline().write()
-       // ctx.channel().write()
+        // 2. 以下两种写会经过整个 pipeline
+        // ctx.pipeline().write()
+        // ctx.channel().write()
         ctx.alloc().buffer();
     }
 }

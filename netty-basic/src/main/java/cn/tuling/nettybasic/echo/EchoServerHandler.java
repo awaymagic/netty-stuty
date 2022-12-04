@@ -1,7 +1,6 @@
 package cn.tuling.nettybasic.echo;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
@@ -18,8 +17,8 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         ByteBuf in = (ByteBuf) msg;
         System.out.println("server accept:" + in.toString(CharsetUtil.UTF_8));
         ctx.writeAndFlush(in);
-
-        //ctx.close();
+        // 关闭连接(关闭则为长连接)
+        // ctx.close();
     }
 
     @Override
