@@ -20,6 +20,7 @@ public class HearBeatReqHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        // 捕捉到写空闲事件 -> 发送心跳报文维持连接(单向心跳)
         if(evt == IdleStateEvent.FIRST_WRITER_IDLE_STATE_EVENT){
             MyMessage heartBeat = buildHeatBeat();
             LOG.debug("写空闲，发出心跳报文维持连接： "+ heartBeat);
@@ -52,6 +53,7 @@ public class HearBeatReqHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         if(cause instanceof ReadTimeoutException){
+            // 客户端的连接读空闲检测 15 秒没反应，关闭链路(检测到会自动关闭)
             LOG.warn("服务器长时间未应答，关闭链路");
             //ctx.close();
         }

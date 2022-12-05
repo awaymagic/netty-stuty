@@ -18,18 +18,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Mark老师
- * 类说明：登录检查，这个处理器在客户认证通过后，其实可以移除
+ * 类说明：登录检查，这个处理器在客户认证通过后，
+ * TODO 其实可以移除
  */
 public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LoginAuthRespHandler.class);
 
+	@Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
 	    throws Exception {
 		MyMessage message = (MyMessage) msg;
 		/*是不是握手认证请求*/
-		if(message.getMyHeader()!=null
-			&&message.getMyHeader().getType()==MessageType.LOGIN_REQ.value()){
+		if (message.getMyHeader() != null
+				&& message.getMyHeader().getType() == MessageType.LOGIN_REQ.value()) {
 			LOG.info("收到客户端认证请求 : " + message);
 			String nodeIndex = ctx.channel().remoteAddress().toString();
 			MyMessage loginResp = null;
@@ -45,20 +47,22 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
 				InetSocketAddress address = (InetSocketAddress) ctx.channel()
 						.remoteAddress();
 				String ip = address.getAddress().getHostAddress();
-				if(SecurityCenter.isWhiteIP(ip)){
+				if (SecurityCenter.isWhiteIP(ip)) {
 					SecurityCenter.addLoginUser(nodeIndex);
 					loginResp = buildResponse((byte) 0);
 					LOG.info("认证通过，应答消息 : " + loginResp);
 					ctx.writeAndFlush(loginResp);
-				}else{
+				} else {
 					loginResp = buildResponse((byte) -1);
 					LOG.warn("认证失败，应答消息 : " + loginResp);
 					ctx.writeAndFlush(loginResp);
 					ctx.close();
 				}
 			}
+			// 认证结束释放
 			ReferenceCountUtil.release(msg);
-		}else{
+		} else {
+			// 向后传递
 			ctx.fireChannelRead(msg);
 		}
     }
@@ -72,7 +76,7 @@ public class LoginAuthRespHandler extends ChannelInboundHandlerAdapter {
 		return message;
     }
 
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+    public void exceptionæCaught(ChannelHandlerContext ctx, Throwable cause)
 	    throws Exception {
         // 删除缓存
 		SecurityCenter.removeLoginUser(ctx.channel().remoteAddress().toString());

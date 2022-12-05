@@ -24,7 +24,7 @@ public class NettyClient implements Runnable{
 
     private static final Logger LOG = LoggerFactory.getLogger(NettyClient.class);
 
-    /*负责重连的线程池*/
+    /*专门负责重连的线程池*/
     private ScheduledExecutorService executor = Executors
             .newScheduledThreadPool(1);
     private Channel channel;
@@ -58,6 +58,7 @@ public class NettyClient implements Runnable{
         } finally {
             if(!userClose){
                 /*非正常关闭，有可能发生了网络问题，进行重连*/
+                // 如果发现网络断开了，把连接任务投入到该线程池中，做定期的重连
                 LOG.warn("需要进行重连");
                 executor.execute(new Runnable() {
                     @Override

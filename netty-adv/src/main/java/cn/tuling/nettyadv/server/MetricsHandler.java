@@ -23,11 +23,17 @@ public class MetricsHandler extends ChannelDuplexHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MetricsHandler.class);
 
     private static AtomicBoolean startTask = new AtomicBoolean(false);
+    // 当前 channel 有几个
     private static AtomicLong chCount = new AtomicLong(0);
+    // 当前读数据有几个
     private static AtomicLong totalReadBytes = new AtomicLong(0);
+    // 当前写数据有几个
     private static AtomicLong totalWriteBytes = new AtomicLong(0);
     private static ScheduledExecutorService statService = new ScheduledThreadPoolExecutor(1);
-    /*ChannelGroup用来保存所有已经连接的Channel*/
+    /**
+     * TODO 可以用于 webSokect 里的群发功能
+     * 找到所有和服务器连接的 channel ，一次性往全部 channel 里写
+     * ChannelGroup用来保存所有已经连接的Channel*/
     private final static ChannelGroup channelGroup =
             new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
 
@@ -48,25 +54,28 @@ public class MetricsHandler extends ChannelDuplexHandler {
                         SingleThreadEventExecutor executor =
                                 (SingleThreadEventExecutor) executorGroups.next();
                         int size = executor.pendingTasks();
-                        if (executor == ctx.executor())
+                        if (executor == ctx.executor()) {
                             LOG.info(ctx.channel() + ":" + executor + "待处理队列大小 :  " + size);
-                        else
+                        } else {
                             LOG.info(executor + " 待处理队列大小 : " + size);
+                        }
                     }
                     /*发送队列积压字节数*/
                     Iterator<Channel> channels = channelGroup.iterator();
-                    while(channels.hasNext()){
+                    while (channels.hasNext()) {
                         Channel channel = channels.next();
-                        if(channel instanceof ServerChannel) continue;
-                        LOG.info(channel+"发送缓存积压字节数："+channel.unsafe().outboundBuffer().totalPendingWriteBytes());
+                        if (channel instanceof ServerChannel) {
+                            continue;
+                        }
+                        LOG.info(channel + "发送缓存积压字节数：" + channel.unsafe().outboundBuffer().totalPendingWriteBytes());
                     }
 
-                    LOG.info( "读取速率(字节/分)："+totalReadBytes.getAndSet(0));
-                    LOG.info( "写出速率(字节/分)："+totalWriteBytes.getAndSet(0));
+                    LOG.info("读取速率(字节/分)：" + totalReadBytes.getAndSet(0));
+                    LOG.info("写出速率(字节/分)：" + totalWriteBytes.getAndSet(0));
 
                     LOG.info("----------------性能指标采集结束-------------------");
                 }
-            },0,60*1000, TimeUnit.MILLISECONDS);
+            }, 0, 10 * 1000, TimeUnit.MILLISECONDS);// 这里设置的 10 秒钟统计一次
         }
         channelGroup.add(ctx.channel());
         super.channelActive(ctx);

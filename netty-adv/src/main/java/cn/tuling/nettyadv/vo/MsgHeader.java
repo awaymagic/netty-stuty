@@ -22,7 +22,7 @@ public final class MsgHeader {
     private byte priority;
 
     /*消息头额外附件*/
-    private Map<String, Object> attachment = new HashMap<String, Object>();
+    private Map<String, Object> attachment = new HashMap<>();
 
     public String getMd5() {
         return md5;

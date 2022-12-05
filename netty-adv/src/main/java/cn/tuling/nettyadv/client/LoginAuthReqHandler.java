@@ -17,6 +17,7 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginAuthReqHandler.class);
 
+    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         /*发出认证请求*/
         MyMessage loginMsg = buildLoginReq();
@@ -24,12 +25,13 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
         ctx.writeAndFlush(loginMsg);
     }
 
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
         MyMessage message = (MyMessage) msg;
         /*是不是握手成功的应答*/
-        if(message.getMyHeader()!=null
-                &&message.getMyHeader().getType()==MessageType.LOGIN_RESP.value()){
+        if (message.getMyHeader() != null
+                && message.getMyHeader().getType() == MessageType.LOGIN_RESP.value()) {
             LOG.info("收到认证应答报文，服务器是否验证通过？");
             byte loginResult = (byte) message.getBody();
             if (loginResult != (byte) 0) {
@@ -38,10 +40,11 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
                 ctx.close();
             } else {
                 LOG.info("通过认证，移除本处理器，进入业务通信 : " + message);
+                // 建议用完直接移除
                 ctx.pipeline().remove(this);
                 ReferenceCountUtil.release(msg);
             }
-        }else{
+        } else {
             ctx.fireChannelRead(msg);
         }
     }

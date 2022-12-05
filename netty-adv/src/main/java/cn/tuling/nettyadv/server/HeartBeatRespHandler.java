@@ -19,18 +19,21 @@ public class HeartBeatRespHandler extends ChannelInboundHandlerAdapter {
 
 	private static final Logger LOG = LoggerFactory.getLogger(HeartBeatRespHandler.class);
 
+	@Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
 	    throws Exception {
 		MyMessage message = (MyMessage) msg;
 		/*是不是心跳请求*/
-		if(message.getMyHeader()!=null
-				&&message.getMyHeader().getType()==MessageType.HEARTBEAT_REQ.value()){
+		if (message.getMyHeader() != null
+				&& message.getMyHeader().getType() == MessageType.HEARTBEAT_REQ.value()) {
 			/*心跳应答报文*/
 			MyMessage heartBeatResp = buildHeatBeat();
-			LOG.debug("心跳应答： "+ heartBeatResp);
+			LOG.debug("心跳应答： " + heartBeatResp);
 			ctx.writeAndFlush(heartBeatResp);
+			// 心跳结束释放
 			ReferenceCountUtil.release(msg);
-		}else{
+		} else {
+			// 向后传递(可能为业务信息)
 			ctx.fireChannelRead(msg);
 		}
     }
@@ -45,6 +48,7 @@ public class HeartBeatRespHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		// 异常捕捉
 		if(cause instanceof ReadTimeoutException){
 			LOG.warn("客户端长时间未通信，可能已经宕机，关闭链路");
 			SecurityCenter.removeLoginUser(ctx.channel().remoteAddress().toString());

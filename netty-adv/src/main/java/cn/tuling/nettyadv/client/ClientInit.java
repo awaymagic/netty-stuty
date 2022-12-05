@@ -17,9 +17,10 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 public class ClientInit extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
+        // 打印 log
         ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
 
-        /*连接写空闲检测*/
+        /* 连接写空闲检测 */
         ch.pipeline().addLast(new CheckWriteIdleHandler());
         /*粘包半包*/
         ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,
@@ -30,13 +31,17 @@ public class ClientInit extends ChannelInitializer<SocketChannel> {
         /*序列化相关*/
         ch.pipeline().addLast(new KryoDecoder());
         ch.pipeline().addLast(new KryoEncoder());
-
+        // 打印 log
         ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
+        // 发起登录请求
         ch.pipeline().addLast(new LoginAuthReqHandler());
 
-        /*连接读空闲检测*/
+        /* 客户端的连接读空闲检测 */
         ch.pipeline().addLast(new ReadTimeoutHandler(15));
-        /*向服务器发出心跳请求*/
+        /*向服务器发出心跳请求
+         * 1 定时心跳
+         * 2 发出心跳报文维持连接（本次实现这种）
+         * */
         ch.pipeline().addLast(new HearBeatReqHandler());
 
         ch.pipeline().addLast(new ClientBusiHandler());
