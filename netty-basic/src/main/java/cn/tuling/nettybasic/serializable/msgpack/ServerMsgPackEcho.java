@@ -49,6 +49,16 @@ public class ServerMsgPackEcho {
 
         @Override
         protected void initChannel(Channel ch) throws Exception {
+            // 粘包半包处理 重点
+            /*
+             * LengthFieldBasedFrameDecoder 参数详解
+             * maxFrameLength   包的最大长度
+             * lengthFieldOffset    长度域的偏移量，表示跳过指定个数字节之后的才是长度域
+             * lengthFieldLength    记录该帧数据长度的字段，也就是长度域本身的长度;
+             * lengthAdjustment     长度的一个修正值，可正可负，Netty 在读取到数据包的长度值 N 后，认为接下来的 N 个字节都是需要读取的，但是根据实际情况，有可能需要增加 N 的值，也有可能需要减少 N 的值，具体增加多少，减少多少，写在这个参数里;
+             * initialBytesToStrip  从数据帧中跳过的字节数，表示得到一个完整的数据包之后，扔掉这个数据包中多少字节数，才是后续业务实际需要的业务数据。
+             * filFast  如果为 true，则表示读取到长度域，TA 的值的超过 maxFrameLength，就抛出一个 TooLongFrameException，而为 false 表示只有当真正读取完长度域的值表示的字节之后，才会抛出 TooLongFrameException，默认情况下设置为 true，建议不要修改，否则可能会造成内存溢出。
+             */
             ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,
                     0,2,0,
                     2));
