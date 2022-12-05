@@ -9,7 +9,7 @@ import java.util.List;
 /**
  *  FixedLengthFrameDecoder
  */
-//扩展 ByteToMessageDecoder 以处理入站字节，并将它们解码为消息
+// 扩展 ByteToMessageDecoder 以处理入站字节，并将它们解码为消息
 public class FixedLengthFrameDecoder extends ByteToMessageDecoder {
     private final int frameLength;
 

@@ -15,29 +15,29 @@ import static org.junit.Assert.assertTrue;
 public class FrameChunkDecoderTest {
     @Test
     public void testFramesDecoded() {
-        //创建一个 ByteBuf，并向它写入 9 字节
+        // 创建一个 ByteBuf，并向它写入 9 字节
         ByteBuf buf = Unpooled.buffer();
         for (int i = 0; i < 9; i++) {
             buf.writeByte(i);
         }
         ByteBuf input = buf.duplicate();
 
-        //创建一个 EmbeddedChannel，并向其安装允许一个帧最大为3字节的
+        // 创建一个 EmbeddedChannel，并向其安装允许一个帧最大为3字节的
         // FrameChunkDecoder
         EmbeddedChannel channel = new EmbeddedChannel(
             new FrameChunkDecoder(3));
 
-        //向它写入 2 字节，并断言它们将会产生一个新帧
+        // 向它写入 2 字节，并断言它们将会产生一个新帧
         assertTrue(channel.writeInbound(input.readBytes(2)));
         try {
-            //写入一个 4 字节大小的帧，并捕获预期的TooLongFrameException
+            // 写入一个 4 字节大小的帧，并捕获预期的TooLongFrameException
             channel.writeInbound(input.readBytes(4));
         } catch (TooLongFrameException e) {
             e.printStackTrace();
         }
-        //写入剩余的2字节，并断言将会产生一个有效帧
+        // 写入剩余的2字节，并断言将会产生一个有效帧
         assertTrue(channel.writeInbound(input.readBytes(3)));
-        //将该 Channel 标记为已完成状态
+        // 将该 Channel 标记为已完成状态
         assertTrue(channel.finish());
 
     }

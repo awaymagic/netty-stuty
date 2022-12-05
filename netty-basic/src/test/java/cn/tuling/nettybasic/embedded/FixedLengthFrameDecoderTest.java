@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class FixedLengthFrameDecoderTest {
     @Test
     public void testFramesDecoded() {
-        //创建一个 ByteBuf，并存储 9 字节
+        // 创建一个 ByteBuf，并存储 9 字节
         ByteBuf buf = Unpooled.buffer();
         for (int i = 0; i < 9; i++) {
             buf.writeByte(i);

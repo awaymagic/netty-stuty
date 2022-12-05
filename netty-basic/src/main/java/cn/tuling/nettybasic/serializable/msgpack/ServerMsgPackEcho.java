@@ -59,6 +59,7 @@ public class ServerMsgPackEcho {
              * initialBytesToStrip  从数据帧中跳过的字节数，表示得到一个完整的数据包之后，扔掉这个数据包中多少字节数，才是后续业务实际需要的业务数据。
              * filFast  如果为 true，则表示读取到长度域，TA 的值的超过 maxFrameLength，就抛出一个 TooLongFrameException，而为 false 表示只有当真正读取完长度域的值表示的字节之后，才会抛出 TooLongFrameException，默认情况下设置为 true，建议不要修改，否则可能会造成内存溢出。
              */
+            // LengthFieldPrepender 为 2，所以 initialBytesToStrip = 2
             ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,
                     0,2,0,
                     2));

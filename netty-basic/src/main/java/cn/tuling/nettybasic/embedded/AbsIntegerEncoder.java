@@ -9,7 +9,7 @@ import java.util.List;
 /**
  *  AbsIntegerEncoder
  */
-//扩展 MessageToMessageEncoder 以将一个消息编码为另外一种格式
+// 扩展 MessageToMessageEncoder 以将一个消息编码为另外一种格式
 public class AbsIntegerEncoder extends
         MessageToMessageEncoder<ByteBuf> {
     @Override
